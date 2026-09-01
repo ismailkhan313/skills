@@ -4,24 +4,23 @@ A collection of [Claude Skills](https://docs.claude.com/en/docs/claude-code/skil
 
 ## Structure
 
-Skills are grouped loosely by category. Each skill is a folder containing a `SKILL.md` (plus any supporting files it needs):
+Each skill is a folder in the repo root containing a `SKILL.md` (plus any supporting files it needs):
 
 ```
 skills/
-├── personal/
-├── entrepreneurship/
-├── coding/
-├── architecture/
-├── writing/
+├── some-skill/
+│   └── SKILL.md
+├── another-skill/
+│   └── SKILL.md
 └── ...
 ```
 
-Categories are just for browsing — add new ones freely as new kinds of skills show up.
+Flat for now — will organize into categories (personal, entrepreneurship, coding, architecture, writing, ...) once there's enough of a collection to make that useful.
 
 ## Adding a skill
 
-- **From elsewhere:** copy the skill folder into the right category, and note where it came from (a link in its `SKILL.md` or a short line here) if it's not obvious.
-- **New:** create a folder under the relevant category with a `SKILL.md` describing what it does and when to use it.
+- **From elsewhere:** copy the skill folder in, and note where it came from (a link in its `SKILL.md`) if it's not obvious.
+- **New:** create a folder with a `SKILL.md` describing what it does and when to use it.
 
 ## Using these skills
 
