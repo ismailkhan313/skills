@@ -11,22 +11,27 @@ skills-repo/
 ├── CLAUDE.md          # this file
 ├── README.md           # human index: table of all skills, one row each
 ├── SOURCES.md           # provenance log for every imported/forked skill
-├── skills/
-│   ├── <skill-name>/
-│   │   ├── SKILL.md         # required — frontmatter + instructions
-│   │   ├── scripts/          # optional — executable code the skill runs
-│   │   ├── references/        # optional — docs loaded on demand
-│   │   └── assets/             # optional — templates, static files
-│   └── ...
-└── scripts/
-    └── sync-vendor.sh    # optional — re-pulls tracked upstream repos to diff against
+├── <skill-name>/
+│   ├── SKILL.md         # required — frontmatter + instructions
+│   ├── scripts/          # optional — executable code the skill runs
+│   ├── references/        # optional — docs loaded on demand
+│   └── assets/             # optional — templates, static files
+├── <another-skill>/
+└── mattpocock/         # an imported collection, kept together under its author
+    ├── tdd/
+    │   └── SKILL.md
+    └── ...
 ```
 
-Skills are **flat** under `skills/` — no `own/` vs `vendored/` subfolders.
-Ownership is tracked in `SOURCES.md`, not in the directory tree. This
-matches how Anthropic's own public skills repo (`anthropics/skills`) is
-laid out, and how the Skill tool discovers skills — it scans one directory
-for folders containing `SKILL.md`.
+Skills are **flat at the repo root** — no `skills/` wrapper, and no `own/`
+vs `vendored/` subfolders. Ownership is tracked in `SOURCES.md`, not in the
+directory tree, so the repo root can be pointed at directly as a skills
+directory — the Skill tool scans one directory for folders containing a
+`SKILL.md`.
+
+The one exception is `mattpocock/`, a whole upstream collection kept in its
+own folder so its 37 skills stay identifiable as his. Nest a folder like
+that only for an entire imported collection, never for a single skill.
 
 ## The SKILL.md format (Agent Skills spec)
 
@@ -60,7 +65,7 @@ Rules an agent must follow when creating or renaming a skill:
 
 ## When adding a skill I wrote myself
 
-1. Create `skills/<skill-name>/SKILL.md` following the format above.
+1. Create `<skill-name>/SKILL.md` at the repo root, following the format above.
 2. Add one row to `README.md`'s skill table: name, one-line purpose,
    `source: own`.
 3. Do **not** add an entry to `SOURCES.md` — that file is only for skills
@@ -68,7 +73,9 @@ Rules an agent must follow when creating or renaming a skill:
 
 ## When importing a skill from another repo
 
-1. Copy the skill folder into `skills/` as-is, unmodified.
+1. Copy the skill folder to the repo root as-is, unmodified. An entire
+   upstream collection goes into one folder named for its author or repo
+   (see `mattpocock/`).
 2. If the name collides with an existing skill, rename the folder to
    prefix the source (e.g. `acme-pdf-tools` instead of `pdf-tools`), and
    update `name:` in its frontmatter to match — `name` must equal the
@@ -99,9 +106,9 @@ Rules an agent must follow when creating or renaming a skill:
 
 ## Before finishing any skill work
 
-- Validate frontmatter: `skills-ref validate ./skills/<skill-name>` if the
+- Validate frontmatter: `skills-ref validate ./<skill-name>` if the
   `skills-ref` CLI is available.
 - Confirm `SOURCES.md` and `README.md` are updated for any skill that was
   imported, renamed, or forked in this session — these are the only record
   of provenance, so an agent should never leave them out of sync with
-  `skills/`.
+  what's actually on disk.

@@ -24,7 +24,7 @@ owes attribution upstream.
 
 ---
 
-## mattpocock/skills (37 skills)
+## mattpocock/ (37 skills)
 Source: https://github.com/mattpocock/skills
 Commit/tag: 3cca18b368ae95cdbdebbff572ccafa662551015 (upstream `HEAD` at import time)
 License: not stated upstream (no LICENSE file in the source repo as imported)
@@ -33,8 +33,11 @@ Modified: no
 
 Installed with `npx skills@latest add mattpocock/skills -a claude-code -s '*' -y --copy`
 (`--copy` so real files land in the repo rather than symlinks into `node_modules`),
-then moved from the tool's `.claude/skills/` output into `skills/`, one folder
-per skill, flat alongside every other skill in this repo.
+then moved from the tool's `.claude/skills/` output into `mattpocock/`.
+
+Unlike every other entry here, this is a **nested collection**: the 37 skill
+folders live one level deeper, under `mattpocock/<skill-name>/`, to keep the
+whole set identifiable as his. Every other skill is a folder at the repo root.
 
 Upstream groups these into `skills/engineering/`, `skills/writing/`,
 `skills/in-progress/` etc.; the installer flattens that grouping away, so
