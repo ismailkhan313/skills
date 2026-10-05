@@ -8,6 +8,8 @@ A collection of [Claude Skills](https://docs.claude.com/en/docs/claude-code/skil
 | --- | --- | --- |
 | [excalidraw-diagram](excalidraw-diagram) | Generates `.excalidraw` diagram JSON that argues visually, with a Playwright render loop for self-validation | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) |
 | [idea-validator](idea-validator) | Stress-tests a SaaS or AI-consulting idea — market, moats, MVP timeline, earning potential — in blunt operator voice | own |
+| [merge-lecture-notes](merge-lecture-notes) | Combines the full text of several lecture-note files into one Markdown document, verbatim and in lecture order, via a script that checks word counts | own |
+| [translate-arabic-notes](translate-arabic-notes) | Translates Arabic lecture or study notes into a faithful, complete English Markdown file saved beside the original | own |
 | [mattpocock/](mattpocock) *(37 skills)* | Matt Pocock's full collection — TDD, code review, debugging, domain modelling, writing workflows, TypeScript setup | [mattpocock/skills](https://github.com/mattpocock/skills) |
 
 Full provenance for imported skills (upstream repo, license, import date, whether it's been forked) lives in [SOURCES.md](SOURCES.md).
