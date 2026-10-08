@@ -101,4 +101,6 @@ upstream, it can still be diffed against the source repo when that repo updates.
 
 ## Skills written in this repo (no entry needed)
 
-- `idea-validator` — written from scratch, 2026-09-04.
+- `ilm/calibre-to-markdown` — written from scratch, 2026-10-05.
+- `ilm/merge-lecture-notes` — written from scratch, 2026-10-05.
+- `ilm/translate-arabic-notes` — written from scratch, 2026-10-05.

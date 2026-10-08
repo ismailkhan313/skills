@@ -8,7 +8,6 @@ A collection of [Claude Skills](https://docs.claude.com/en/docs/claude-code/skil
 | --- | --- | --- |
 | [ilm/calibre-to-markdown](ilm/calibre-to-markdown) | Converts a Calibre book (text PDF, Arabic or English scan, EPUB) into one Markdown file of the whole book with chapter headings and page markers, via text layer, tesseract, or page-by-page vision transcription | own |
 | [excalidraw-diagram](excalidraw-diagram) | Generates `.excalidraw` diagram JSON that argues visually, with a Playwright render loop for self-validation | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) |
-| [idea-validator](idea-validator) | Stress-tests a SaaS or AI-consulting idea — market, moats, MVP timeline, earning potential — in blunt operator voice | own |
 | [ilm/merge-lecture-notes](ilm/merge-lecture-notes) | Combines the full text of several lecture-note files into one Markdown document, verbatim and in lecture order, via a script that checks word counts | own |
 | [ilm/translate-arabic-notes](ilm/translate-arabic-notes) | Translates Arabic lecture or study notes into a faithful, complete English Markdown file saved beside the original | own |
 | [mattpocock/](mattpocock) *(37 skills)* | Matt Pocock's full collection — TDD, code review, debugging, domain modelling, writing workflows, TypeScript setup | [mattpocock/skills](https://github.com/mattpocock/skills) |
