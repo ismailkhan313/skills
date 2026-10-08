@@ -17,6 +17,9 @@ skills-repo/
 │   ├── references/        # optional — docs loaded on demand
 │   └── assets/             # optional — templates, static files
 ├── <another-skill>/
+├── ilm/                # own skills for one area of work (Islamic studies and metaphysics research)
+│   ├── calibre-to-markdown/
+│   └── ...
 └── mattpocock/         # an imported collection, kept together under its author
     ├── tdd/
     │   └── SKILL.md
@@ -29,9 +32,17 @@ directory tree, so the repo root can be pointed at directly as a skills
 directory — the Skill tool scans one directory for folders containing a
 `SKILL.md`.
 
-The one exception is `mattpocock/`, a whole upstream collection kept in its
-own folder so its 37 skills stay identifiable as his. Nest a folder like
-that only for an entire imported collection, never for a single skill.
+Two kinds of folder may group skills one level down:
+
+- **An imported collection**, e.g. `mattpocock/`: a whole upstream collection,
+  kept in its own folder so its 37 skills stay identifiable as his.
+- **An area of my own work**, e.g. `ilm/`: my own skills for Islamic studies
+  and metaphysics research (sources, translation, lecture notes). A new skill
+  for that work goes in `ilm/<skill-name>/`.
+
+Never nest a folder for a single skill, and never nest more than one level.
+Skills inside a group folder aren't found by tools that scan only the repo
+root, so each one is linked into `~/.claude/skills/` individually.
 
 ## The SKILL.md format (Agent Skills spec)
 

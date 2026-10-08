@@ -6,11 +6,11 @@ A collection of [Claude Skills](https://docs.claude.com/en/docs/claude-code/skil
 
 | Skill | What it does | Source |
 | --- | --- | --- |
-| [calibre-to-markdown](calibre-to-markdown) | Converts a Calibre book (text PDF, Arabic or English scan, EPUB) into one Markdown file of the whole book with chapter headings and page markers, via text layer, tesseract, or page-by-page vision transcription | own |
+| [ilm/calibre-to-markdown](ilm/calibre-to-markdown) | Converts a Calibre book (text PDF, Arabic or English scan, EPUB) into one Markdown file of the whole book with chapter headings and page markers, via text layer, tesseract, or page-by-page vision transcription | own |
 | [excalidraw-diagram](excalidraw-diagram) | Generates `.excalidraw` diagram JSON that argues visually, with a Playwright render loop for self-validation | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) |
 | [idea-validator](idea-validator) | Stress-tests a SaaS or AI-consulting idea — market, moats, MVP timeline, earning potential — in blunt operator voice | own |
-| [merge-lecture-notes](merge-lecture-notes) | Combines the full text of several lecture-note files into one Markdown document, verbatim and in lecture order, via a script that checks word counts | own |
-| [translate-arabic-notes](translate-arabic-notes) | Translates Arabic lecture or study notes into a faithful, complete English Markdown file saved beside the original | own |
+| [ilm/merge-lecture-notes](ilm/merge-lecture-notes) | Combines the full text of several lecture-note files into one Markdown document, verbatim and in lecture order, via a script that checks word counts | own |
+| [ilm/translate-arabic-notes](ilm/translate-arabic-notes) | Translates Arabic lecture or study notes into a faithful, complete English Markdown file saved beside the original | own |
 | [mattpocock/](mattpocock) *(37 skills)* | Matt Pocock's full collection — TDD, code review, debugging, domain modelling, writing workflows, TypeScript setup | [mattpocock/skills](https://github.com/mattpocock/skills) |
 
 Full provenance for imported skills (upstream repo, license, import date, whether it's been forked) lives in [SOURCES.md](SOURCES.md).
@@ -26,18 +26,20 @@ Each skill is a folder at the repo root containing a `SKILL.md` (plus any suppor
 ├── another-skill/
 │   ├── SKILL.md
 │   └── references/
+├── ilm/                 # my own skills for Islamic studies and metaphysics research
+│   └── calibre-to-markdown/ …
 └── mattpocock/          # an imported collection, kept together under its author
     ├── tdd/
     │   └── SKILL.md
     └── ...
 ```
 
-Flat at the root — no `skills/` wrapper, no `own/` vs `vendored/` split; ownership is tracked in `SOURCES.md`, not in the directory tree. That way the repo itself is a skills directory. The one exception is `mattpocock/`, a whole upstream collection kept in its own folder so the 37 skills stay identifiable as his.
+Flat at the root — no `skills/` wrapper, no `own/` vs `vendored/` split; ownership is tracked in `SOURCES.md`, not in the directory tree. That way the repo itself is a skills directory. Two exceptions: `mattpocock/`, a whole upstream collection kept in its own folder so the 37 skills stay identifiable as his; and `ilm/`, my own skills for Islamic studies and metaphysics research, grouped by area of work.
 
 ## Adding a skill
 
 - **From elsewhere:** copy the folder to the repo root unmodified, add a row to the table above with the source repo, and add an entry to [SOURCES.md](SOURCES.md).
-- **New:** create `<name>/SKILL.md` describing what it does and when to use it, and add a row above with `own`.
+- **New:** create `<name>/SKILL.md` (or `ilm/<name>/SKILL.md` for Islamic studies and metaphysics work) describing what it does and when to use it, and add a row above with `own`.
 
 See [CLAUDE.md](CLAUDE.md) for the full rules an agent should follow when adding, importing, or forking a skill.
 
