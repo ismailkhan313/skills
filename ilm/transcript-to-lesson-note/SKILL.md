@@ -19,7 +19,7 @@ The note keeps **everything taught**: each point, definition, example, story, co
    - **Correcting a word is silent; correcting the teacher is not.** If the teacher seems to have the facts wrong (who wrote what, a date, a ruling), or a vault note disagrees, keep the teacher's version and add a visible bullet beneath it: `- *Note:* Salem's preface ([[01 Translators Preface]]) attributes this to al-Abharī.`
 5. **Write the note** in the shape below.
 6. **Link.** Search the vault for notes on the main texts, scholars and concepts the lecture names, and wikilink the first mention when a note exists. Don't link to notes that don't exist.
-7. **Save** beside the sibling lesson notes in the course folder (not inside `transcripts/`), named after the sibling pattern with a title that states the lesson's main topic. Never overwrite an existing file; if one exists, tell the user and save under a new name.
+7. **Save** beside the sibling lesson notes in the course folder, never beside the transcripts (in ilm-vault they live in a separate `98 Sources/<course path>/`), named after the sibling pattern with a title that states the lesson's main topic. Never overwrite an existing file; if one exists, tell the user and save under a new name.
 8. **Check.** If the vault has a link checker (e.g. `python3 .claude/scripts/vault.py check`), run it; the unresolved-link count must not go up. Then reread the transcript against the note section by section and add anything taught that is missing.
 9. **Report** each note's path, its sections, and any `(?)` readings the user may want to confirm.
 
