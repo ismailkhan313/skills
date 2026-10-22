@@ -9,7 +9,9 @@ Answer a question from one book in the Calibre library without converting it. Ev
 
 ## Steps
 
-1. **Find the book:** `uv run scripts/lookup.py find "<title or author words>"`. Words match the title or author, and short distinctive words work best (`"nasr cosmological"`). If there is no hit, try the surname alone. To ask "which of my books cover X", add `--topic`, which also searches tags and descriptions. If several results could be the book, list them (id, title, formats) and ask which one. If none matches, say the book isn't in the library, and stop there.
+1. **Find the book:** `uv run scripts/lookup.py find "<title or author words>"`. Words match the title or author, and short distinctive words work best (`"nasr cosmological"`). If there is no hit, try the surname alone. If several results could be the book, list them (id, title, formats) and ask which one. If none matches, say the book isn't in the library, and stop there.
+
+   **No book named ("which of my books discuss X?"):** run `uv run scripts/lookup.py library "<term>" ["<synonym>" ...]`. It searches the text of every book in Calibre's full-text index (`full-text-search.db`) and ranks books by hits, each with a snippet. It can't give page numbers, so take the top 2–4 books through steps 3–5. If it warns that indexing is incomplete, say the results are partial. `find --topic` is a fallback that searches only tags and descriptions.
 2. **Map it:** `uv run scripts/lookup.py toc <id>`. This lists the chapters with their PDF pages. A section whose title names the topic is usually the best page to read.
 3. **Search:** `uv run scripts/lookup.py search <id> "<term>" ["<synonym>" ...] --rank`. Terms match word starts, so `element` also finds `elements`. Add synonyms and transliterations (e.g. `"four elements" "'anasir" "/ust[uū]qus/"`), and use a term in `/slashes/` as a regex. The results list pages ranked by hits, each with its chapter and snippets. If it warns that pages have no text layer, the book is a scan, so tell the user and offer calibre-to-markdown (OCR or vision).
 4. **Read:** `uv run scripts/lookup.py pages <id> <a-b>` for the strongest 2–4 page ranges: those with the most hits plus the section the TOC points to. Snippets alone aren't enough to answer from. Cap reading at about 15 pages, then ask before reading more.
@@ -19,4 +21,5 @@ Answer a question from one book in the Calibre library without converting it. Ev
 
 - `page N` is the PDF page. `printed P` is the number printed on the page, read from its first or last lines. It's missing on some pages, so work it out from the offset of a nearby page.
 - PDF is preferred over EPUB because it has real page numbers. Pass `--format EPUB` to read the EPUB instead, but its page numbers come from the layout and aren't citable.
+- The full-text index holds only what Calibre could extract. Scanned PDFs are indexed with no text (Calibre doesn't OCR), and Arabic PDF text layers may have lam-alef swaps (الله stored as هللا). Arabic harakat are ignored when matching. When an Arabic search finds nothing, also try the swapped spelling.
 - OCR'd PDFs carry noise (e.g. `Ibn Sinii` for Ibn Sīnā). Correct obvious OCR errors in quotes, but don't paraphrase inside quotation marks.

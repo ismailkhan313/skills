@@ -6,6 +6,7 @@
 """Find a book in the Calibre library and pull out what it says about a topic.
 
   lookup.py find "<title or author words>" [--topic] # is it in the library? -> ids
+  lookup.py library "<term>" ["<term>" ...]           # which books mention it (Calibre full-text index)
   lookup.py toc <book>                                # chapters with their PDF pages
   lookup.py search <book> "<term>" ["<term>" ...]     # pages ranked by hits, with snippets
   lookup.py pages <book> 120-124                      # the text of those pages
@@ -27,6 +28,7 @@ import sys
 
 PREF_FILES = ["~/Library/Preferences/calibre/global.py.json", "~/.config/calibre/global.py.json"]
 LONE_NUMBER = re.compile(r"^[\s\-–—()]*([0-9]{1,4}|[ivxlcdm]{1,6})[\s\-–—()]*$", re.I)
+ARABIC_MARKS = re.compile("[ً-ٰٟـ]")
 
 
 # ---------------------------------------------------------------- library
@@ -45,7 +47,8 @@ def library_path(explicit: str | None) -> pathlib.Path:
 def connect(lib: pathlib.Path) -> sqlite3.Connection:
     if not (lib / "metadata.db").exists():
         sys.exit(f"error: no metadata.db in {lib}; pass --library")
-    return sqlite3.connect(f"{(lib / 'metadata.db').as_uri()}?mode=ro", uri=True)
+    # timeout: wait out Calibre's write locks (it writes the full-text index in the background)
+    return sqlite3.connect(f"{(lib / 'metadata.db').as_uri()}?mode=ro", uri=True, timeout=30)
 
 
 def open_book(book: str, library: str | None, fmt: str | None):
@@ -87,6 +90,11 @@ def flat(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def strip_marks(text: str) -> str:
+    """Drop Arabic harakat and tatweel, so voweled and unvoweled text match alike."""
+    return ARABIC_MARKS.sub("", text)
+
+
 def term_pattern(term: str) -> re.Pattern:
     if len(term) > 2 and term.startswith("/") and term.endswith("/"):
         return re.compile(term[1:-1], re.I)
@@ -124,6 +132,42 @@ def cmd_find(args) -> int:
         print(f"{r[0]:>6}  {r[1]}  —  {r[2]}  [{r[3]}] {year}")
     if not rows:
         print("no matches (try fewer or shorter words, or the author's surname alone)")
+    return 0
+
+
+def cmd_library(args) -> int:
+    lib = library_path(args.library)
+    fts = lib / "full-text-search.db"
+    if not fts.exists():
+        sys.exit("error: no full-text-search.db; turn on indexing in Calibre (the FT button by the search bar)")
+    con = connect(lib)
+    con.execute(f"attach database '{fts.as_uri()}?mode=ro' as fts")
+    pats = [term_pattern(strip_marks(t)) for t in args.terms]
+    # SQL prefilter (LIKE is fast, case-insensitive for ASCII) on plain-ASCII terms only;
+    # Arabic and /regex/ terms are matched in Python, after stripping harakat.
+    plain = [t for t in args.terms if t.isascii() and not t.startswith("/")]
+    where = " or ".join("t.searchable_text like ?" for _ in plain) or "1"
+    rows = con.execute(
+        "select t.book, t.format, t.searchable_text, b.title, b.author_sort from fts.books_text t "
+        f"join books b on b.id = t.book where ({where})",
+        [f"%{' '.join(t.split())}%" for t in plain])
+    hits = {}
+    for book, fmt, text, title, author in rows:
+        text = strip_marks(text)
+        found = [m for p in pats for m in p.finditer(text)]
+        if found and len(found) > hits.get(book, (0,))[0]:  # keep the format with most hits
+            m = found[0]
+            a, b = max(0, m.start() - args.context), m.end() + args.context
+            hits[book] = (len(found), book, title, author, fmt, flat(text[a:b]))
+
+    indexed, pending = con.execute(
+        "select (select count(*) from fts.books_text where searchable_text != ''), "
+        "(select count(*) from fts.dirtied_formats)").fetchone()
+    print(f"{len(hits)} books mention {args.terms}  (index: {indexed} files with text, {pending} still queued)")
+    if pending:
+        print("warning: indexing is incomplete, so results are partial")
+    for n, book, title, author, fmt, snip in sorted(hits.values(), key=lambda h: -h[0])[: args.limit]:
+        print(f"\n{book:>6}  {title}  —  {author}  [{fmt}]  {n} hits\n        …{snip}…")
     return 0
 
 
@@ -194,6 +238,10 @@ def main() -> int:
     f = sub.add_parser("find")
     f.add_argument("query")
     f.add_argument("--topic", action="store_true", help="also match tags and the book description")
+    lb = sub.add_parser("library")
+    lb.add_argument("terms", nargs="+")
+    lb.add_argument("--context", type=int, default=120, help="characters either side of the first hit")
+    lb.add_argument("--limit", type=int, default=20, help="books to show")
     for name in ("toc", "search", "pages"):
         p = sub.add_parser(name)
         p.add_argument("book", help="Calibre id or path to a .pdf/.epub")
@@ -206,7 +254,7 @@ def main() -> int:
     s.add_argument("--rank", action="store_true", help="most hits first instead of page order")
     sub.choices["pages"].add_argument("range", help='e.g. "120-124" or "57"')
     args = ap.parse_args()
-    return {"find": cmd_find, "toc": cmd_toc, "search": cmd_search, "pages": cmd_pages}[args.cmd](args)
+    return {"find": cmd_find, "library": cmd_library, "toc": cmd_toc, "search": cmd_search, "pages": cmd_pages}[args.cmd](args)
 
 
 if __name__ == "__main__":
