@@ -7,6 +7,7 @@ A collection of [Claude Skills](https://docs.claude.com/en/docs/claude-code/skil
 | Skill | What it does | Source |
 | --- | --- | --- |
 | [ilm/calibre-lookup](ilm/calibre-lookup) | Finds a book in the Calibre library (read-only via metadata.db), searches its full text for a topic, and answers with page citations, with no conversion needed; uses Calibre's full-text index to find which books mention a topic | own |
+| [ilm/calibre-import](ilm/calibre-import) | Imports books from `~/Codebase/library-inbox` into the Calibre library: reads each title page, checks for duplicates, gets approval of a metadata table, adds via calibredb, and files the originals | own |
 | [ilm/calibre-to-markdown](ilm/calibre-to-markdown) | Converts a Calibre book (text PDF, Arabic or English scan, EPUB) into one Markdown file of the whole book with chapter headings and page markers, via text layer, tesseract, or page-by-page vision transcription | own |
 | [excalidraw-diagram](excalidraw-diagram) | Generates `.excalidraw` diagram JSON that argues visually, with a Playwright render loop for self-validation | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) |
 | [ilm/merge-lecture-notes](ilm/merge-lecture-notes) | Combines the full text of several lecture-note files into one Markdown document, verbatim and in lecture order, via a script that checks word counts | own |
