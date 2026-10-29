@@ -12,7 +12,7 @@ All work goes through `scripts/book2md.py` (run it with `uv run`; it pulls in Py
 ## Steps
 
 1. **Find the book.** Run `uv run scripts/book2md.py find "<title or author words>"`. If more than one result could be the book, show the user the candidates (id, title, formats, language) and let them choose.
-2. **Choose the output path.** If the project has rules about where sources go (its `CLAUDE.md` — e.g. an inbox folder for raw material), follow them. In ilm-vault (`~/Codebase/ilm-vault`) the default is `98 Sources/Books/`. Otherwise use the folder the user named, or the current directory. Name the file `<author>-<short-title>.md`, lowercase ASCII with hyphens, transliterating Arabic simply.
+2. **Choose the output path.** If the project has rules about where sources go (its `CLAUDE.md` — e.g. an inbox folder for raw material), follow them. In ilm-vault (`~/Workspace/ilm-vault`) the default is `98 Sources/Books/`. Otherwise use the folder the user named, or the current directory. Name the file `<author>-<short-title>.md`, lowercase ASCII with hyphens, transliterating Arabic simply.
 3. **Probe:** `uv run scripts/book2md.py probe <id> --dir <scratch>/probe`. It reports page count, outline (bookmarks), text-layer coverage, garbled-text signals, and a recommendation, and it renders two sample pages. **Read both sample images** and compare them with `sample_text`. Done when you can name the engine:
 
    | What the probe shows | Engine |

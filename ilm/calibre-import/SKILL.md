@@ -1,13 +1,13 @@
 ---
 name: calibre-import
-description: Import the books waiting in the user's library inbox (/Users/viz1er/Codebase/library-inbox) into their Calibre library — identifies each file's real title, authors, language and genre from its title page, checks the library for duplicates, shows a metadata table for approval, then adds the books through calibredb and files the originals away. Use when asked to "process my inbox", import, add, or organize new books into Calibre.
+description: Import the books waiting in the user's library inbox (/Users/viz1er/Workspace/library-inbox) into their Calibre library — identifies each file's real title, authors, language and genre from its title page, checks the library for duplicates, shows a metadata table for approval, then adds the books through calibredb and files the originals away. Use when asked to "process my inbox", import, add, or organize new books into Calibre.
 ---
 
 # Calibre import
 
-Move every book in `/Users/viz1er/Codebase/library-inbox/` into the Calibre library with
+Move every book in `/Users/viz1er/Workspace/library-inbox/` into the Calibre library with
 clean metadata. The paths and the metadata rules (titles, author spelling, the
-fixed genre-tag list) are in `/Users/viz1er/Codebase/library-inbox/CLAUDE.md`. Read that
+fixed genre-tag list) are in `/Users/viz1er/Workspace/library-inbox/CLAUDE.md`. Read that
 file first and follow it. Every write goes through `calibredb`. Never edit
 `metadata.db` or the library folders by hand.
 
